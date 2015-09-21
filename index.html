@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+	<html>
+		<head>
+			<title>50 State Flags Game</title>
+			<link href='https://fonts.googleapis.com/css?family=Raleway:400,800' rel='stylesheet' type='text/css'>
+			<link rel="stylesheet" type="text/css" href="css/main.css"/>
+			<script src="js/jquery-2.1.4.min.js"></script>
+			<script src="js/main.js"></script>
+			<script>
+				function readAbbreviationsFiles(fileName) {
+					$.get(fileName, function(data) {
+						var output = data.split("\n");
+						for(var i=0; i<output.length; i++) {
+							output[i] = output[i].replace(/^\s+|\s+$/g, '').split("\t");
+							abbreviations[output[i][0]] = output[i][1];
+						}
+						main(shuffle(output));
+					});
+				}
+				readAbbreviationsFiles("static/abbreviations.txt");
+				function readStatesFiles(fileName) {
+					$.get(fileName, function(data) {
+						var output = data.split("\n");
+						for(var i=0; i<output.length; i++) {
+							output[i] = output[i].replace(/^\s+|\s+$/g, '');
+						}
+						main(shuffle(output));
+					});
+				}
+				readStatesFiles("static/states.txt");
+			</script>
+		</head>
+
+		<body bgcolor="#D3D3D3">
+			<center>
+				<div id="header">
+					<br>
+					<h1>50 State Flags Game</h1>
+					<h4><em>Can you identify all 50 state flags?</em></h4>
+					<br><br>
+				</div>
+
+				<div id="content">
+					<h3 id="highScore">High Score: 0</h3>
+					<h3 id="currentScore">Current Score: 0</h3>
+					<h3 id="timeLeft">Time Remaining: 120 seconds</h3>
+					<br><br>
+					<input type="text" name="inputState" onKeydown="Javascript: if(event.keyCode==13) renderState();" id="inputState" autofocus="autofocus" value="">
+					<input type="submit" value="Submit" onclick="renderState()">
+					<input type="submit" value="Restart" onclick="restart()">
+					<br><br>
+					<img id="flag" src="" />
+					<p id="state"></p>
+				</div>
+			</center>
+
+			<script>startTimer(120)</script>
+		</body>
+	</html>
